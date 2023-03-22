@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+  name: portainer
+  namespace: portainer
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: portainer.anaeleboo.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: portainer
+            port:
+              number: 9443
+        path: /
+        pathType: Prefix
